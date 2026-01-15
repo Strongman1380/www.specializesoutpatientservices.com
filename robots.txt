@@ -1,0 +1,16 @@
+# robots.txt for S.O.S. Counseling - Specialized Outpatient Services
+# https://www.specializedoutpatientservices.com/
+
+# Allow all crawlers
+User-agent: *
+Allow: /
+
+# Sitemap location
+Sitemap: https://www.specializedoutpatientservices.com/sitemap.xml
+
+# Crawl delay (optional - be gentle on the server)
+Crawl-delay: 10
+
+# Disallow admin or private areas (if any exist in the future)
+# Disallow: /admin/
+# Disallow: /private/
