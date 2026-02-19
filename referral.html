@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>CTA Referral Form | S.O.S. Counseling | Grand Island, NE</title>
+    <meta name="description" content="Submit a Community Treatment Aid referral to S.O.S. Counseling in Grand Island, Nebraska.">
+    <meta name="robots" content="index, follow">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect fill='%238B1A1A' width='100' height='100' rx='12'/><text x='50' y='68' font-family='Georgia,serif' font-size='45' font-weight='bold' fill='white' text-anchor='middle'>SOS</text></svg>">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <meta name="theme-color" content="#8B1A1A">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Open+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar scrolled" id="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <img src="images/SOSlogo.png" alt="S.O.S. Counseling Logo" class="logo-img">
+            </a>
+            <button class="nav-toggle" id="nav-toggle" aria-label="Toggle navigation">
+                <span class="hamburger"></span>
+            </button>
+            <ul class="nav-menu" id="nav-menu">
+                <li><a href="index.html" class="nav-link">Home</a></li>
+                <li><a href="index.html#about" class="nav-link">About</a></li>
+                <li><a href="index.html#services" class="nav-link">Services</a></li>
+                <li><a href="index.html#team" class="nav-link">Our Team</a></li>
+                <li><a href="index.html#contact" class="nav-link">Contact</a></li>
+                <li><a href="referral.html" class="nav-link btn-nav">Referral Form</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Referral Hero -->
+    <section class="referral-hero">
+        <div class="container">
+            <div class="referral-hero-content">
+                <span class="section-tag">Community Treatment Aid</span>
+                <h1 class="section-title">Referral Form</h1>
+                <p class="referral-hero-description">
+                    Use this form to refer a client for Community Treatment Aid services. All information is kept confidential and handled in accordance with HIPAA guidelines.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Referral Form -->
+    <section class="referral-form-section">
+        <div class="container">
+            <form class="referral-form" id="referralForm">
+                <!-- Hidden field for Web3Forms -->
+                <!--
+                    TO ACTIVATE EMAIL DELIVERY:
+                    1. Go to https://web3forms.com
+                    2. Enter the email where you want referrals sent
+                    3. You'll get an access key — paste it below
+                -->
+                <input type="hidden" name="access_key" value="387185ac-140b-4c74-bbcf-c6a8423b32d1">
+                <input type="hidden" name="subject" value="New CTA Referral Submission - S.O.S. Counseling">
+                <input type="hidden" name="from_name" value="S.O.S. Counseling Referral Form">
+                <!-- Honeypot spam protection -->
+                <input type="checkbox" name="botcheck" class="hidden" style="display:none;">
+
+                <!-- Section 1: Referral Information -->
+                <div class="form-section">
+                    <h2 class="form-section-title">
+                        <span class="form-section-number">1</span>
+                        Referral Information
+                    </h2>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="ref-date">Date <span class="required">*</span></label>
+                            <input type="date" id="ref-date" name="Date" required>
+                        </div>
+                        <div class="form-group full-width">
+                            <label for="client-name">Client Name <span class="required">*</span></label>
+                            <input type="text" id="client-name" name="Client Name" required placeholder="Full name of client being referred">
+                        </div>
+                        <div class="form-group full-width">
+                            <label for="client-address">Client Address</label>
+                            <input type="text" id="client-address" name="Client Address" placeholder="Street address, city, state, zip">
+                        </div>
+                        <div class="form-group full-width">
+                            <label for="referral-source">Referral Source (Name and Agency) <span class="required">*</span></label>
+                            <input type="text" id="referral-source" name="Referral Source" required placeholder="e.g., Jane Smith, DHHS">
+                        </div>
+                        <div class="form-group">
+                            <label for="referral-phone">Referral Phone</label>
+                            <input type="tel" id="referral-phone" name="Referral Phone" placeholder="(308) 000-0000">
+                        </div>
+                        <div class="form-group">
+                            <label for="referral-fax">Referral Fax</label>
+                            <input type="tel" id="referral-fax" name="Referral Fax" placeholder="(308) 000-0000">
+                        </div>
+                        <div class="form-group full-width">
+                            <label for="referral-address">Referral Address</label>
+                            <input type="text" id="referral-address" name="Referral Address" placeholder="Street address, city, state, zip">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section 2: Client Information -->
+                <div class="form-section">
+                    <h2 class="form-section-title">
+                        <span class="form-section-number">2</span>
+                        Client Information
+                    </h2>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="client-dob">Client Date of Birth</label>
+                            <input type="date" id="client-dob" name="Client DOB">
+                        </div>
+                        <div class="form-group">
+                            <label for="client-age">Age</label>
+                            <input type="number" id="client-age" name="Age" min="0" max="120" placeholder="Age">
+                        </div>
+                        <div class="form-group">
+                            <label for="client-gender">Gender</label>
+                            <select id="client-gender" name="Gender">
+                                <option value="">Select</option>
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                                <option value="Non-binary">Non-binary</option>
+                                <option value="Prefer not to say">Prefer not to say</option>
+                            </select>
+                        </div>
+                        <div class="form-group full-width">
+                            <label for="residing-with">Residing With (Name and Relationship)</label>
+                            <input type="text" id="residing-with" name="Residing With" placeholder="e.g., Mary Smith, Mother">
+                        </div>
+                        <div class="form-group full-width">
+                            <label for="client-address-2">Address</label>
+                            <input type="text" id="client-address-2" name="Client Residence Address" placeholder="Current residential address if different from above">
+                        </div>
+                        <div class="form-group">
+                            <label for="contact-number">Contact Number <span class="required">*</span></label>
+                            <input type="tel" id="contact-number" name="Contact Number" required placeholder="(308) 000-0000">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section 3: Service Information -->
+                <div class="form-section">
+                    <h2 class="form-section-title">
+                        <span class="form-section-number">3</span>
+                        Service Information
+                    </h2>
+                    <div class="form-grid">
+                        <div class="form-group full-width">
+                            <label for="presenting-concerns">Presenting Concerns <span class="required">*</span></label>
+                            <textarea id="presenting-concerns" name="Presenting Concerns" rows="5" required placeholder="Describe the client's presenting concerns and reason for referral..."></textarea>
+                        </div>
+                        <div class="form-group full-width">
+                            <label for="diagnosis">Diagnosis (if known)</label>
+                            <input type="text" id="diagnosis" name="Diagnosis" placeholder="e.g., ADHD, PTSD, ODD">
+                        </div>
+                        <div class="form-group">
+                            <label for="therapist">Therapist</label>
+                            <input type="text" id="therapist" name="Therapist" placeholder="Assigned or requesting therapist">
+                        </div>
+                        <div class="form-group full-width">
+                            <label>Location of Services Requested <span class="required">*</span></label>
+                            <div class="checkbox-group">
+                                <label class="checkbox-label">
+                                    <input type="radio" name="Service Location" value="In home" required>
+                                    <span class="checkmark"></span>
+                                    In home
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="radio" name="Service Location" value="In office">
+                                    <span class="checkmark"></span>
+                                    In office
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="radio" name="Service Location" value="Either location">
+                                    <span class="checkmark"></span>
+                                    Either location
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="radio" name="Service Location" value="Other">
+                                    <span class="checkmark"></span>
+                                    Other
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group full-width" id="other-location-group" style="display:none;">
+                            <label for="other-location">Other Location (please specify)</label>
+                            <input type="text" id="other-location" name="Other Location" placeholder="Specify location">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section 4: Insurance/Payment Information -->
+                <div class="form-section">
+                    <h2 class="form-section-title">
+                        <span class="form-section-number">4</span>
+                        Insurance / Payment Information
+                    </h2>
+                    <div class="form-grid">
+                        <div class="form-group full-width">
+                            <label>Type of Insurance</label>
+                            <div class="checkbox-group">
+                                <label class="checkbox-label">
+                                    <input type="radio" name="Insurance Type" value="Medicaid - Total Care">
+                                    <span class="checkmark"></span>
+                                    Medicaid — Total Care
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="radio" name="Insurance Type" value="Medicaid - UHC">
+                                    <span class="checkmark"></span>
+                                    Medicaid — UHC
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="radio" name="Insurance Type" value="Medicaid - Healthy Blue (Auth needed)">
+                                    <span class="checkmark"></span>
+                                    Medicaid — Healthy Blue (Auth needed)
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="radio" name="Insurance Type" value="Other">
+                                    <span class="checkmark"></span>
+                                    Other
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="policy-number">Policy #</label>
+                            <input type="text" id="policy-number" name="Policy Number" placeholder="Policy number">
+                        </div>
+                        <div class="form-group">
+                            <label for="group-number">Group #</label>
+                            <input type="text" id="group-number" name="Group Number" placeholder="Group number">
+                        </div>
+                        <div class="form-group">
+                            <label for="insurance-phone">Insurance Phone #</label>
+                            <input type="tel" id="insurance-phone" name="Insurance Phone" placeholder="(800) 000-0000">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Submit -->
+                <div class="form-submit-area">
+                    <p class="form-disclaimer">
+                        By submitting this form, you confirm that you have authorization to refer this individual for services.
+                        All information will be kept confidential.
+                    </p>
+                    <button type="submit" class="btn btn-primary btn-full" id="referralSubmitBtn">
+                        <span>Submit Referral</span>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="22" y1="2" x2="11" y2="13"></line>
+                            <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                        </svg>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="index.html" class="footer-logo">
+                        <img src="images/SOSlogo.png" alt="S.O.S. Counseling Logo" class="footer-logo-img">
+                    </a>
+                    <p class="footer-tagline">Specialized Outpatient Services</p>
+                    <p class="footer-description">
+                        Providing compassionate mental health care to youth, adults, and families in Grand Island, Nebraska since 2014.
+                    </p>
+                </div>
+                <div class="footer-links">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="index.html#about">About Us</a></li>
+                        <li><a href="index.html#services">Services</a></li>
+                        <li><a href="index.html#team">Our Team</a></li>
+                        <li><a href="index.html#contact">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-services">
+                    <h4>Services</h4>
+                    <ul>
+                        <li><a href="index.html#services">Youth Counseling</a></li>
+                        <li><a href="index.html#services">Family Therapy</a></li>
+                        <li><a href="index.html#services">Adult Therapy</a></li>
+                        <li><a href="index.html#services">Trauma Treatment</a></li>
+                        <li><a href="index.html#services">CTA Services</a></li>
+                    </ul>
+                </div>
+                <div class="footer-contact">
+                    <h4>Contact Info</h4>
+                    <p>1811 W 2nd Street, Suite 450<br>Grand Island, NE 68803</p>
+                    <p><a href="tel:308-856-9949">308-856-9949</a></p>
+                    <p>Mon-Fri: 8 AM - 8 PM</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2014-<span id="currentYear"></span> S.O.S. Counseling - Specialized Outpatient Services. All rights reserved.</p>
+                <div class="footer-legal">
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast">
+        <div class="toast-content">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="toast-icon">
+                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                <polyline points="22 4 12 14.01 9 11.01"></polyline>
+            </svg>
+            <span class="toast-message">Referral submitted successfully!</span>
+        </div>
+    </div>
+
+    <!-- Back to Top Button -->
+    <button class="back-to-top" id="backToTop" aria-label="Back to top">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="18 15 12 9 6 15"></polyline>
+        </svg>
+    </button>
+
+    <script src="script.js"></script>
+    <script src="referral.js"></script>
+
+    <!-- Aminos Chat Bot -->
+    <script src="https://app.aminos.ai/js/chat_plugin.js" data-bot-id="58208"></script>
+</body>
+</html>
