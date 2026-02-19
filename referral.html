@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>CTA Referral Form | S.O.S. Counseling | Grand Island, NE</title>
-    <meta name="description" content="Submit a Community Treatment Aid referral to S.O.S. Counseling in Grand Island, Nebraska.">
+    <title>Referral Form | S.O.S. Counseling | Grand Island, NE</title>
+    <meta name="description" content="Submit a referral for counseling services at S.O.S. Counseling in Grand Island, Nebraska.">
     <meta name="robots" content="index, follow">
 
     <!-- Favicon -->
@@ -46,10 +46,10 @@
     <section class="referral-hero">
         <div class="container">
             <div class="referral-hero-content">
-                <span class="section-tag">Community Treatment Aid</span>
+                <span class="section-tag">Specialized Outpatient Services</span>
                 <h1 class="section-title">Referral Form</h1>
                 <p class="referral-hero-description">
-                    Use this form to refer a client for Community Treatment Aid services. All information is kept confidential and handled in accordance with HIPAA guidelines.
+                    Use this form to refer a client for services at S.O.S. Counseling. Select one or more services below. All information is kept confidential and handled in accordance with HIPAA guidelines.
                 </p>
             </div>
         </div>
@@ -67,7 +67,7 @@
                     3. You'll get an access key — paste it below
                 -->
                 <input type="hidden" name="access_key" value="387185ac-140b-4c74-bbcf-c6a8423b32d1">
-                <input type="hidden" name="subject" value="New CTA Referral Submission - S.O.S. Counseling">
+                <input type="hidden" name="subject" value="New Referral Submission - S.O.S. Counseling">
                 <input type="hidden" name="from_name" value="S.O.S. Counseling Referral Form">
                 <!-- Honeypot spam protection -->
                 <input type="checkbox" name="botcheck" class="hidden" style="display:none;">
@@ -157,6 +157,41 @@
                         Service Information
                     </h2>
                     <div class="form-grid">
+                        <div class="form-group full-width">
+                            <label>Services Requested <span class="required">*</span> <span style="font-weight:400; color: var(--gray-400); font-size: 0.85rem;">(select all that apply)</span></label>
+                            <div class="checkbox-group">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" name="Services Requested" value="Youth & Adolescent Counseling">
+                                    <span class="checkmark"></span>
+                                    Youth & Adolescent Counseling
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" name="Services Requested" value="Family Therapy">
+                                    <span class="checkmark"></span>
+                                    Family Therapy
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" name="Services Requested" value="Adult Individual Therapy">
+                                    <span class="checkmark"></span>
+                                    Adult Individual Therapy
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" name="Services Requested" value="Trauma & PTSD Treatment">
+                                    <span class="checkmark"></span>
+                                    Trauma & PTSD Treatment
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" name="Services Requested" value="Community Treatment Aide (CTA)">
+                                    <span class="checkmark"></span>
+                                    Community Treatment Aide (CTA)
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" name="Services Requested" value="Bilingual Services (Spanish)">
+                                    <span class="checkmark"></span>
+                                    Bilingual Services (Spanish)
+                                </label>
+                            </div>
+                        </div>
                         <div class="form-group full-width">
                             <label for="presenting-concerns">Presenting Concerns <span class="required">*</span></label>
                             <textarea id="presenting-concerns" name="Presenting Concerns" rows="5" required placeholder="Describe the client's presenting concerns and reason for referral..."></textarea>

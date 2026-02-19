@@ -52,6 +52,13 @@ function initReferralForm() {
         const submitBtn = document.getElementById('referralSubmitBtn');
         const originalHTML = submitBtn.innerHTML;
 
+        // Validate at least one service is selected
+        const servicesChecked = form.querySelectorAll('input[name="Services Requested"]:checked');
+        if (servicesChecked.length === 0) {
+            showToast('Please select at least one service.', 'error');
+            return;
+        }
+
         // Show loading state
         submitBtn.innerHTML = '<span>Submitting...</span>';
         submitBtn.disabled = true;
