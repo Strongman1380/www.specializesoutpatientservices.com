@@ -4,7 +4,7 @@
  */
 
 // Google Sheets Web App URL — paste your URL from the setup guide
-const REFERRAL_SHEETS_URL = 'https://script.google.com/macros/s/AKfycbx9C39iXX5Otwo3oqU5DURxbM4FTcGH7gZ0xHFUkar9NIDD6C3-AniOWH3IviTp-zSKfg/exec';
+const REFERRAL_SHEETS_URL = 'https://script.google.com/macros/s/AKfycbzbcH4ceq-GeVBUbyQpT_EyH7PnzGLlfkncmjwjcu8gMKFvmiOOoLNoULxc3yDxKaYnrw/exec';
 
 document.addEventListener('DOMContentLoaded', function() {
     initReferralForm();
