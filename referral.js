@@ -1,9 +1,9 @@
 /**
  * S.O.S. Counseling - Referral Form Handler
- * Sends referral submissions via Web3Forms API + Google Sheets
+ * Sends referral submissions via Google Apps Script (Sheets + branded email)
  */
 
-// Google Sheets Web App URL — paste your URL from the setup guide
+// Google Sheets Web App URL
 const REFERRAL_SHEETS_URL = 'https://script.google.com/macros/s/AKfycbzbcH4ceq-GeVBUbyQpT_EyH7PnzGLlfkncmjwjcu8gMKFvmiOOoLNoULxc3yDxKaYnrw/exec';
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -43,35 +43,7 @@ function initOtherLocationToggle() {
 }
 
 /**
- * Send referral data to Google Sheets (fire-and-forget)
- */
-function sendToGoogleSheets(formData) {
-    if (REFERRAL_SHEETS_URL === 'YOUR_GOOGLE_SHEETS_URL_HERE') return;
-
-    const data = Object.fromEntries(formData);
-    // Combine multiple "Services Requested" checkbox values
-    const services = formData.getAll('Services Requested');
-    data['Services Requested'] = services.join(', ');
-    data.formType = 'referral';
-
-    // Remove Web3Forms-specific fields
-    delete data.access_key;
-    delete data.subject;
-    delete data.from_name;
-    delete data.botcheck;
-
-    fetch(REFERRAL_SHEETS_URL, {
-        method: 'POST',
-        mode: 'no-cors',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data)
-    }).catch(function() {
-        // Silent fail — email is the primary delivery method
-    });
-}
-
-/**
- * Handle referral form submission via Web3Forms + Google Sheets
+ * Handle referral form submission via Google Apps Script
  */
 function initReferralForm() {
     const form = document.getElementById('referralForm');
@@ -96,26 +68,28 @@ function initReferralForm() {
 
         try {
             const formData = new FormData(form);
+            const data = Object.fromEntries(formData);
 
-            // Send to Google Sheets in background
-            sendToGoogleSheets(formData);
+            // Combine multiple checkbox values
+            const services = formData.getAll('Services Requested');
+            data['Services Requested'] = services.join(', ');
+            data.formType = 'referral';
 
-            // Send email via Web3Forms
-            const response = await fetch('https://api.web3forms.com/submit', {
+            // Remove honeypot field
+            delete data.botcheck;
+
+            await fetch(REFERRAL_SHEETS_URL, {
                 method: 'POST',
-                body: formData
+                mode: 'no-cors',
+                headers: { 'Content-Type': 'text/plain' },
+                body: JSON.stringify(data)
             });
 
-            const result = await response.json();
-
-            if (result.success) {
-                showToast('Referral submitted successfully! We will be in touch soon.', 'success');
-                form.reset();
-                setDefaultDate();
-                document.querySelector('.referral-form-section').scrollIntoView({ behavior: 'smooth' });
-            } else {
-                showToast('There was a problem submitting the referral. Please call us at 308-856-9949.', 'error');
-            }
+            // no-cors means we can't read the response, so assume success
+            showToast('Referral submitted successfully! We will be in touch soon.', 'success');
+            form.reset();
+            setDefaultDate();
+            document.querySelector('.referral-form-section').scrollIntoView({ behavior: 'smooth' });
         } catch (error) {
             showToast('Network error. Please check your connection or call us at 308-856-9949.', 'error');
         }

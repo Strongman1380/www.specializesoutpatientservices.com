@@ -266,31 +266,6 @@ function initTestimonialSlider() {
 }
 
 /**
- * Send contact data to Google Sheets (fire-and-forget)
- */
-function sendContactToGoogleSheets(formData) {
-    if (CONTACT_SHEETS_URL === 'YOUR_GOOGLE_SHEETS_URL_HERE') return;
-
-    var data = Object.fromEntries(formData);
-    data.formType = 'contact';
-
-    // Remove Web3Forms-specific fields
-    delete data.access_key;
-    delete data.subject;
-    delete data.from_name;
-    delete data.botcheck;
-
-    fetch(CONTACT_SHEETS_URL, {
-        method: 'POST',
-        mode: 'no-cors',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data)
-    }).catch(function() {
-        // Silent fail — email is the primary delivery method
-    });
-}
-
-/**
  * Contact Form Handler
  */
 function initContactForm() {
@@ -316,24 +291,27 @@ function initContactForm() {
         submitBtn.innerHTML = '<span>Sending...</span>';
         submitBtn.disabled = true;
 
-        try {
-            // Send to Google Sheets in background
-            sendContactToGoogleSheets(formData);
+        // Build payload for Apps Script
+        const payload = {
+            formType: 'contact',
+            name: data.name,
+            email: data.email,
+            phone: data.phone || '',
+            service: data.service || '',
+            message: data.message || ''
+        };
 
-            // Send email via Web3Forms
-            const response = await fetch('https://api.web3forms.com/submit', {
+        try {
+            await fetch(CONTACT_SHEETS_URL, {
                 method: 'POST',
-                body: formData
+                mode: 'no-cors',
+                headers: { 'Content-Type': 'text/plain' },
+                body: JSON.stringify(payload)
             });
 
-            const result = await response.json();
-
-            if (result.success) {
-                form.reset();
-                showToast('Message sent successfully! We\'ll be in touch soon.', 'success');
-            } else {
-                showToast('There was a problem sending your message. Please call us at 308-856-9949.', 'error');
-            }
+            // no-cors means we can't read the response, so assume success
+            form.reset();
+            showToast('Message sent successfully! We\'ll be in touch soon.', 'success');
         } catch (error) {
             showToast('Network error. Please check your connection or call us at 308-856-9949.', 'error');
         }
