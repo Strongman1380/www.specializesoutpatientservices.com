@@ -3,8 +3,16 @@
  * Specialized Outpatient Services
  */
 
-// Google Sheets Web App URL — paste your URL from the setup guide
+// EmailJS Configuration
+const EMAILJS_PUBLIC_KEY = 'GrZesY7oeZxe3C2TS';
+const EMAILJS_SERVICE_ID = 'service_4x3qqp1';
+const EMAILJS_CONTACT_TEMPLATE = 'template_9uaylhv';
+
+// Google Sheets Web App URL
 const CONTACT_SHEETS_URL = 'https://script.google.com/macros/s/AKfycbxBTPe_V2HYEc6R2rPjR1Gw1SV8aSA4k62DFHnghAnSK4Mjla9HeFMKu8uSCULoJ_ienw/exec';
+
+// Initialize EmailJS
+emailjs.init(EMAILJS_PUBLIC_KEY);
 
 document.addEventListener('DOMContentLoaded', function() {
     // Initialize all features
@@ -291,28 +299,35 @@ function initContactForm() {
         submitBtn.innerHTML = '<span>Sending...</span>';
         submitBtn.disabled = true;
 
-        // Build payload for Apps Script
-        const payload = {
-            formType: 'contact',
-            name: data.name,
+        // Build EmailJS template params
+        const templateParams = {
+            from_name: data.name,
             email: data.email,
             phone: data.phone || '',
             service: data.service || '',
-            message: data.message || ''
+            message: data.message || '',
+            date: new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })
         };
 
         try {
-            const response = await fetch(CONTACT_SHEETS_URL, {
-                method: 'POST',
-                body: JSON.stringify(payload)
+            await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_CONTACT_TEMPLATE, templateParams);
+
+            // Also log to Google Sheets via sendBeacon (fire-and-forget)
+            const sheetsPayload = JSON.stringify({
+                formType: 'contact',
+                name: data.name,
+                email: data.email,
+                phone: data.phone || '',
+                service: data.service || '',
+                message: data.message || ''
             });
+            navigator.sendBeacon(CONTACT_SHEETS_URL, sheetsPayload);
 
             form.reset();
             showToast('Message sent successfully! We\'ll be in touch soon.', 'success');
         } catch (error) {
-            // CORS error may occur but the request still goes through
-            form.reset();
-            showToast('Message sent successfully! We\'ll be in touch soon.', 'success');
+            console.error('EmailJS error:', error);
+            showToast('Something went wrong. Please try again or call us directly.', 'error');
         }
 
         submitBtn.innerHTML = originalText;
