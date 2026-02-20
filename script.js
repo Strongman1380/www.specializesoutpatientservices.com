@@ -3,16 +3,11 @@
  * Specialized Outpatient Services
  */
 
-// EmailJS Configuration
-const EMAILJS_PUBLIC_KEY = 'GrZesY7oeZxe3C2TS';
-const EMAILJS_SERVICE_ID = 'service_4x3qqp1';
-const EMAILJS_CONTACT_TEMPLATE = 'template_9uaylhv';
+// Web3Forms API URL
+const WEB3FORMS_URL = 'https://api.web3forms.com/submit';
 
 // Google Sheets Web App URL
 const CONTACT_SHEETS_URL = 'https://script.google.com/macros/s/AKfycbxBTPe_V2HYEc6R2rPjR1Gw1SV8aSA4k62DFHnghAnSK4Mjla9HeFMKu8uSCULoJ_ienw/exec';
-
-// Initialize EmailJS
-emailjs.init(EMAILJS_PUBLIC_KEY);
 
 document.addEventListener('DOMContentLoaded', function() {
     // Initialize all features
@@ -299,34 +294,35 @@ function initContactForm() {
         submitBtn.innerHTML = '<span>Sending...</span>';
         submitBtn.disabled = true;
 
-        // Build EmailJS template params
-        const templateParams = {
-            from_name: data.name,
-            email: data.email,
-            phone: data.phone || '',
-            service: data.service || '',
-            message: data.message || '',
-            date: new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })
-        };
-
         try {
-            await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_CONTACT_TEMPLATE, templateParams);
-
-            // Also log to Google Sheets via sendBeacon (fire-and-forget)
-            const sheetsPayload = JSON.stringify({
-                formType: 'contact',
-                name: data.name,
-                email: data.email,
-                phone: data.phone || '',
-                service: data.service || '',
-                message: data.message || ''
+            // Send via Web3Forms
+            const formData = new FormData(form);
+            const response = await fetch(WEB3FORMS_URL, {
+                method: 'POST',
+                body: formData
             });
-            navigator.sendBeacon(CONTACT_SHEETS_URL, sheetsPayload);
 
-            form.reset();
-            showToast('Message sent successfully! We\'ll be in touch soon.', 'success');
+            const result = await response.json();
+
+            if (result.success) {
+                // Also log to Google Sheets via sendBeacon (fire-and-forget)
+                const sheetsPayload = JSON.stringify({
+                    formType: 'contact',
+                    name: data.name,
+                    email: data.email,
+                    phone: data.phone || '',
+                    service: data.service || '',
+                    message: data.message || ''
+                });
+                navigator.sendBeacon(CONTACT_SHEETS_URL, sheetsPayload);
+
+                form.reset();
+                showToast('Message sent successfully! We\'ll be in touch soon.', 'success');
+            } else {
+                showToast('Something went wrong. Please try again or call us directly.', 'error');
+            }
         } catch (error) {
-            console.error('EmailJS error:', error);
+            console.error('Form submission error:', error);
             showToast('Something went wrong. Please try again or call us directly.', 'error');
         }
 

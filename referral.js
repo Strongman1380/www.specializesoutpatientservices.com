@@ -1,10 +1,10 @@
 /**
  * S.O.S. Counseling - Referral Form Handler
- * Sends referral submissions via EmailJS + Google Sheets logging
+ * Sends referral submissions via Web3Forms + Google Sheets logging
  */
 
-// EmailJS Referral Template — update this once you create the referral template in EmailJS
-const EMAILJS_REFERRAL_TEMPLATE = 'REPLACE_WITH_REFERRAL_TEMPLATE_ID';
+// Web3Forms API URL
+const WEB3FORMS_REFERRAL_URL = 'https://api.web3forms.com/submit';
 
 // Google Sheets Web App URL
 const REFERRAL_SHEETS_URL = 'https://script.google.com/macros/s/AKfycbxBTPe_V2HYEc6R2rPjR1Gw1SV8aSA4k62DFHnghAnSK4Mjla9HeFMKu8uSCULoJ_ienw/exec';
@@ -46,7 +46,7 @@ function initOtherLocationToggle() {
 }
 
 /**
- * Handle referral form submission via Google Apps Script
+ * Handle referral form submission via Web3Forms
  */
 function initReferralForm() {
     const form = document.getElementById('referralForm');
@@ -70,57 +70,39 @@ function initReferralForm() {
         submitBtn.disabled = true;
 
         try {
+            // Send via Web3Forms
             const formData = new FormData(form);
-            const data = Object.fromEntries(formData);
+            const response = await fetch(WEB3FORMS_REFERRAL_URL, {
+                method: 'POST',
+                body: formData
+            });
 
-            // Combine multiple checkbox values
-            const services = formData.getAll('Services Requested');
-            data['Services Requested'] = services.join(', ');
-            data.formType = 'referral';
+            const result = await response.json();
 
-            // Remove honeypot field
-            delete data.botcheck;
+            if (result.success) {
+                // Build data for Google Sheets
+                const data = Object.fromEntries(formData);
+                const services = formData.getAll('Services Requested');
+                data['Services Requested'] = services.join(', ');
+                data.formType = 'referral';
+                delete data.botcheck;
+                delete data.access_key;
+                delete data.subject;
+                delete data.from_name;
+                delete data.cc;
 
-            // Build EmailJS template params
-            const templateParams = {
-                date: new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }),
-                ref_date: data['Date'] || '',
-                referral_source: data['Referral Source'] || '',
-                referral_phone: data['Referral Phone'] || '',
-                referral_fax: data['Referral Fax'] || '',
-                referral_address: data['Referral Address'] || '',
-                client_name: data['Client Name'] || '',
-                client_address: data['Client Address'] || '',
-                client_dob: data['Client DOB'] || '',
-                age: data['Age'] || '',
-                gender: data['Gender'] || '',
-                residing_with: data['Residing With'] || '',
-                client_residence: data['Client Residence Address'] || '',
-                contact_number: data['Contact Number'] || '',
-                services_requested: data['Services Requested'] || '',
-                presenting_concerns: data['Presenting Concerns'] || '',
-                diagnosis: data['Diagnosis'] || '',
-                therapist: data['Therapist'] || '',
-                service_location: data['Service Location'] || '',
-                other_location: data['Other Location'] || '',
-                insurance_type: data['Insurance Type'] || '',
-                policy_number: data['Policy Number'] || '',
-                group_number: data['Group Number'] || '',
-                insurance_phone: data['Insurance Phone'] || ''
-            };
+                // Log to Google Sheets via sendBeacon (fire-and-forget)
+                navigator.sendBeacon(REFERRAL_SHEETS_URL, JSON.stringify(data));
 
-            // Send branded email via EmailJS
-            await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_REFERRAL_TEMPLATE, templateParams);
-
-            // Also log to Google Sheets via sendBeacon (fire-and-forget)
-            navigator.sendBeacon(REFERRAL_SHEETS_URL, JSON.stringify(data));
-
-            showToast('Referral submitted successfully! We will be in touch soon.', 'success');
-            form.reset();
-            setDefaultDate();
-            document.querySelector('.referral-form-section').scrollIntoView({ behavior: 'smooth' });
+                showToast('Referral submitted successfully! We will be in touch soon.', 'success');
+                form.reset();
+                setDefaultDate();
+                document.querySelector('.referral-form-section').scrollIntoView({ behavior: 'smooth' });
+            } else {
+                showToast('Something went wrong. Please try again or call us directly.', 'error');
+            }
         } catch (error) {
-            console.error('EmailJS error:', error);
+            console.error('Form submission error:', error);
             showToast('Something went wrong. Please try again or call us directly.', 'error');
         }
 
