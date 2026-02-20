@@ -1,7 +1,10 @@
 /**
  * S.O.S. Counseling - Referral Form Handler
- * Sends referral submissions via Web3Forms API
+ * Sends referral submissions via Web3Forms API + Google Sheets
  */
+
+// Google Sheets Web App URL — paste your URL from the setup guide
+const REFERRAL_SHEETS_URL = 'YOUR_GOOGLE_SHEETS_URL_HERE';
 
 document.addEventListener('DOMContentLoaded', function() {
     initReferralForm();
@@ -40,7 +43,35 @@ function initOtherLocationToggle() {
 }
 
 /**
- * Handle referral form submission via Web3Forms
+ * Send referral data to Google Sheets (fire-and-forget)
+ */
+function sendToGoogleSheets(formData) {
+    if (REFERRAL_SHEETS_URL === 'YOUR_GOOGLE_SHEETS_URL_HERE') return;
+
+    const data = Object.fromEntries(formData);
+    // Combine multiple "Services Requested" checkbox values
+    const services = formData.getAll('Services Requested');
+    data['Services Requested'] = services.join(', ');
+    data.formType = 'referral';
+
+    // Remove Web3Forms-specific fields
+    delete data.access_key;
+    delete data.subject;
+    delete data.from_name;
+    delete data.botcheck;
+
+    fetch(REFERRAL_SHEETS_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+    }).catch(function() {
+        // Silent fail — email is the primary delivery method
+    });
+}
+
+/**
+ * Handle referral form submission via Web3Forms + Google Sheets
  */
 function initReferralForm() {
     const form = document.getElementById('referralForm');
@@ -66,6 +97,10 @@ function initReferralForm() {
         try {
             const formData = new FormData(form);
 
+            // Send to Google Sheets in background
+            sendToGoogleSheets(formData);
+
+            // Send email via Web3Forms
             const response = await fetch('https://api.web3forms.com/submit', {
                 method: 'POST',
                 body: formData
@@ -77,7 +112,6 @@ function initReferralForm() {
                 showToast('Referral submitted successfully! We will be in touch soon.', 'success');
                 form.reset();
                 setDefaultDate();
-                // Scroll to top of form
                 document.querySelector('.referral-form-section').scrollIntoView({ behavior: 'smooth' });
             } else {
                 showToast('There was a problem submitting the referral. Please call us at 308-856-9949.', 'error');

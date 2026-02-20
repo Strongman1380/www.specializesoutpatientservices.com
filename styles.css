@@ -935,6 +935,45 @@ button {
     background: var(--accent);
 }
 
+/* Service Card Referral Link */
+.service-referral-link {
+    display: inline-block;
+    margin-top: 16px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--primary);
+    transition: var(--transition-base);
+}
+
+.service-referral-link:hover {
+    color: var(--primary-dark);
+    transform: translateX(4px);
+}
+
+.service-referral-link.featured-link {
+    color: var(--accent);
+}
+
+.service-referral-link.featured-link:hover {
+    color: var(--white);
+}
+
+/* Services CTA Banner */
+.services-cta {
+    text-align: center;
+    margin-top: 50px;
+    padding: 40px;
+    background: var(--blush-light);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--gray-100);
+}
+
+.services-cta p {
+    font-size: 1.1rem;
+    color: var(--gray-600);
+    margin-bottom: 20px;
+}
+
 /* ================================
    Approach Section
    ================================ */
