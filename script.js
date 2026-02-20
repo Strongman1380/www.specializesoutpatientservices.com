@@ -4,7 +4,7 @@
  */
 
 // Google Sheets Web App URL — paste your URL from the setup guide
-const CONTACT_SHEETS_URL = 'YOUR_GOOGLE_SHEETS_URL_HERE';
+const CONTACT_SHEETS_URL = 'https://script.google.com/macros/s/AKfycbx9C39iXX5Otwo3oqU5DURxbM4FTcGH7gZ0xHFUkar9NIDD6C3-AniOWH3IviTp-zSKfg/exec';
 
 document.addEventListener('DOMContentLoaded', function() {
     // Initialize all features
