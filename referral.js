@@ -13,6 +13,11 @@ document.addEventListener('DOMContentLoaded', function() {
     initReferralForm();
     initOtherLocationToggle();
     setDefaultDate();
+    initProviderDropdowns();
+    initCtaIntakeToggle();
+    initCtaSubToggles();
+    // Start with CTA section fields disabled (excluded from FormData until shown)
+    hideCTAIntakeSection(false);
 });
 
 /**
@@ -23,6 +28,141 @@ function setDefaultDate() {
     if (dateInput && !dateInput.value) {
         dateInput.valueAsDate = new Date();
     }
+}
+
+/**
+ * Show/hide provider dropdowns based on which services are checked.
+ * Therapy services → therapist dropdown
+ * CTA → CTA dropdown
+ */
+function initProviderDropdowns() {
+    const serviceCheckboxes = document.querySelectorAll('input[name="Services Requested"]');
+    const providerArea = document.getElementById('provider-selection-area');
+    const therapistGroup = document.getElementById('therapist-dropdown-group');
+    const ctaGroup = document.getElementById('cta-dropdown-group');
+
+    if (!providerArea) return;
+
+    const therapyValues = [
+        'Youth & Adolescent Counseling',
+        'Family Therapy',
+        'Adult Individual Therapy',
+        'Trauma & PTSD Treatment',
+        'Bilingual Services (Spanish)'
+    ];
+
+    function updateProviderVisibility() {
+        const checked = Array.from(document.querySelectorAll('input[name="Services Requested"]:checked'))
+            .map(cb => cb.value);
+
+        const hasTherapy = checked.some(v => therapyValues.includes(v));
+        const hasCta = checked.includes('Community Treatment Aide (CTA)');
+
+        therapistGroup.style.display = hasTherapy ? 'block' : 'none';
+        ctaGroup.style.display = hasCta ? 'block' : 'none';
+        providerArea.style.display = (hasTherapy || hasCta) ? 'block' : 'none';
+
+        // If CTA unchecked, reset CTA dropdown and hide intake section
+        if (!hasCta) {
+            const ctaSelect = document.getElementById('preferred-cta');
+            if (ctaSelect) ctaSelect.value = '';
+            hideCTAIntakeSection(true);
+        }
+    }
+
+    serviceCheckboxes.forEach(cb => cb.addEventListener('change', updateProviderVisibility));
+}
+
+/**
+ * Show/hide the CTA Intake section based on CTA dropdown selection.
+ */
+function initCtaIntakeToggle() {
+    const ctaSelect = document.getElementById('preferred-cta');
+    if (!ctaSelect) return;
+
+    ctaSelect.addEventListener('change', function() {
+        if (this.value) {
+            showCTAIntakeSection();
+        } else {
+            hideCTAIntakeSection(true);
+        }
+    });
+}
+
+function showCTAIntakeSection() {
+    const section = document.getElementById('cta-intake-section');
+    if (!section) return;
+    section.style.display = 'block';
+    section.querySelectorAll('input, select, textarea').forEach(el => el.disabled = false);
+    setTimeout(() => section.scrollIntoView({ behavior: 'smooth', block: 'start' }), 50);
+}
+
+/**
+ * @param {boolean} clearFields - if true, reset all field values
+ */
+function hideCTAIntakeSection(clearFields) {
+    const section = document.getElementById('cta-intake-section');
+    if (!section) return;
+    section.style.display = 'none';
+    section.querySelectorAll('input, select, textarea').forEach(el => {
+        el.disabled = true;
+        if (clearFields) {
+            if (el.type === 'radio' || el.type === 'checkbox') {
+                el.checked = false;
+            } else {
+                el.value = '';
+            }
+        }
+    });
+    // Also hide any conditional sub-groups inside CTA section
+    if (clearFields) {
+        ['medicaid-details', 'medicaid-details-2', 'medicaid-details-3',
+         'other-ins-details', 'other-ins-details-2', 'other-ins-details-3',
+         'other-ins-details-4', 'other-ins-details-5', 'other-ins-details-6',
+         'email-address-group'].forEach(id => {
+            const el = document.getElementById(id);
+            if (el) el.style.display = 'none';
+        });
+    }
+}
+
+/**
+ * Conditional sub-toggles inside the CTA intake section:
+ * Medicaid yes/no → show Medicaid details
+ * Other insurance yes/no → show insurer details
+ * Has email yes/no → show email address field
+ */
+function initCtaSubToggles() {
+    // Medicaid
+    document.querySelectorAll('input[name="Medicaid"]').forEach(radio => {
+        radio.addEventListener('change', function() {
+            const show = this.value === 'Yes';
+            ['medicaid-details', 'medicaid-details-2', 'medicaid-details-3'].forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.style.display = show ? 'block' : 'none';
+            });
+        });
+    });
+
+    // Other insurance
+    document.querySelectorAll('input[name="Other Insurance"]').forEach(radio => {
+        radio.addEventListener('change', function() {
+            const show = this.value === 'Yes';
+            ['other-ins-details', 'other-ins-details-2', 'other-ins-details-3',
+             'other-ins-details-4', 'other-ins-details-5', 'other-ins-details-6'].forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.style.display = show ? 'block' : 'none';
+            });
+        });
+    });
+
+    // Has email
+    document.querySelectorAll('input[name="Has Email"]').forEach(radio => {
+        radio.addEventListener('change', function() {
+            const emailGroup = document.getElementById('email-address-group');
+            if (emailGroup) emailGroup.style.display = this.value === 'Yes' ? 'block' : 'none';
+        });
+    });
 }
 
 /**
@@ -84,6 +224,8 @@ function initReferralForm() {
                 const data = Object.fromEntries(formData);
                 const services = formData.getAll('Services Requested');
                 data['Services Requested'] = services.join(', ');
+                // Note: CTA intake fields are only included in FormData when section is visible
+                // (disabled attribute is removed on show, added on hide)
                 data.formType = 'referral';
                 delete data.botcheck;
                 delete data.access_key;
@@ -97,6 +239,14 @@ function initReferralForm() {
                 showToast('Referral submitted successfully! We will be in touch soon.', 'success');
                 form.reset();
                 setDefaultDate();
+                // Reset dynamic sections
+                hideCTAIntakeSection(false); // fields already cleared by form.reset()
+                const providerArea = document.getElementById('provider-selection-area');
+                if (providerArea) providerArea.style.display = 'none';
+                const therapistGroup = document.getElementById('therapist-dropdown-group');
+                if (therapistGroup) therapistGroup.style.display = 'none';
+                const ctaGroup = document.getElementById('cta-dropdown-group');
+                if (ctaGroup) ctaGroup.style.display = 'none';
                 document.querySelector('.referral-form-section').scrollIntoView({ behavior: 'smooth' });
             } else {
                 showToast('Something went wrong. Please try again or call us directly.', 'error');

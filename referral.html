@@ -185,6 +185,29 @@
                                 </label>
                             </div>
                         </div>
+                        <!-- Provider Selection (shown dynamically based on services checked) -->
+                        <div id="provider-selection-area" class="form-group full-width" style="display:none;">
+                            <div id="therapist-dropdown-group" style="display:none; margin-bottom: 1.25rem;">
+                                <label for="preferred-therapist">Preferred Therapist <span style="font-weight:400; color:#9ca3af; font-size:0.85rem;">— leave as "First Available" if no preference</span></label>
+                                <select id="preferred-therapist" name="Preferred Therapist">
+                                    <option value="First Available">First Available</option>
+                                    <option value="Cindy Kissack, MS LIMHP">Cindy Kissack, MS, LIMHP — Co-Owner</option>
+                                    <option value="Jenna Davis, MS LIMHP">Jenna Davis, MS, LIMHP — Co-Owner</option>
+                                    <option value="Trey Kissack, PLMHP (Bilingual)">Trey Kissack, PLMHP — Bilingual Counselor</option>
+                                    <option value="Alisha Thompson, PLMHP PCMSW">Alisha Thompson, PLMHP, PCMSW</option>
+                                </select>
+                            </div>
+                            <div id="cta-dropdown-group" style="display:none;">
+                                <label for="preferred-cta">Preferred Community Treatment Aide <span style="font-weight:400; color:#9ca3af; font-size:0.85rem;">— selecting a CTA opens the CTA Intake Form below</span></label>
+                                <select id="preferred-cta" name="Preferred Community Treatment Aide">
+                                    <option value="">— Select —</option>
+                                    <option value="First Available">First Available</option>
+                                    <option value="Shayla Punchocar">Shayla Punchocar — Community Treatment Aide</option>
+                                    <option value="Brandon Hinrichs">Brandon Hinrichs — Community Treatment Aide</option>
+                                </select>
+                            </div>
+                        </div>
+
                         <div class="form-group full-width">
                             <label for="presenting-concerns">Presenting Concerns <span class="required">*</span></label>
                             <textarea id="presenting-concerns" name="Presenting Concerns" rows="5" required placeholder="Describe the client's presenting concerns and reason for referral..."></textarea>
@@ -192,10 +215,6 @@
                         <div class="form-group full-width">
                             <label for="diagnosis">Diagnosis (if known)</label>
                             <input type="text" id="diagnosis" name="Diagnosis" placeholder="e.g., ADHD, PTSD, ODD">
-                        </div>
-                        <div class="form-group">
-                            <label for="therapist">Therapist</label>
-                            <input type="text" id="therapist" name="Therapist" placeholder="Assigned or requesting therapist">
                         </div>
                         <div class="form-group full-width">
                             <label>Location of Services Requested <span class="required">*</span></label>
@@ -272,6 +291,190 @@
                         <div class="form-group">
                             <label for="insurance-phone">Insurance Phone #</label>
                             <input type="tel" id="insurance-phone" name="Insurance Phone" placeholder="(800) 000-0000">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section 5: CTA Intake Form (shown when CTA service + CTA staff selected) -->
+                <div class="form-section" id="cta-intake-section" style="display:none; border-left: 4px solid #8B1A1A; background: #fdfaf9;">
+                    <div style="background: #F5EFED; border-radius: 8px; padding: 1rem 1.25rem; margin-bottom: 1.5rem; display: flex; gap: 0.75rem; align-items: flex-start;">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="#8B1A1A" stroke-width="2" style="width:20px; height:20px; flex-shrink:0; margin-top:2px;">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <line x1="12" y1="8" x2="12" y2="12"></line>
+                            <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                        </svg>
+                        <div>
+                            <strong style="color:#8B1A1A; font-size:0.9rem;">Community Treatment Aide Intake Form</strong>
+                            <p style="margin:0.25rem 0 0; font-size:0.85rem; color:#5C4033;">The following information is needed to complete a CTA referral. Fill in as much as you have available.</p>
+                        </div>
+                    </div>
+                    <h2 class="form-section-title">
+                        <span class="form-section-number">5</span>
+                        CTA Intake Information
+                    </h2>
+                    <div class="form-grid">
+                        <div class="form-group full-width">
+                            <label for="cta-parent-names">Parent's Name(s)</label>
+                            <input type="text" id="cta-parent-names" name="Parent Names" placeholder="e.g., John &amp; Mary Smith">
+                        </div>
+                        <div class="form-group">
+                            <label for="cta-ssn">Social Security # <span style="font-weight:400; color:#9ca3af; font-size:0.85rem;">(optional)</span></label>
+                            <input type="text" id="cta-ssn" name="Social Security Number" placeholder="XXX-XX-XXXX" autocomplete="off">
+                        </div>
+
+                        <!-- Medicaid -->
+                        <div class="form-group full-width">
+                            <label>Medicaid</label>
+                            <div class="checkbox-group">
+                                <label class="checkbox-label">
+                                    <input type="radio" name="Medicaid" value="Yes">
+                                    <span class="checkmark"></span>
+                                    Yes
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="radio" name="Medicaid" value="No">
+                                    <span class="checkmark"></span>
+                                    No
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group" id="medicaid-details" style="display:none;">
+                            <label for="cta-medicaid-number">Medicaid #</label>
+                            <input type="text" id="cta-medicaid-number" name="Medicaid Number" placeholder="Medicaid ID number">
+                        </div>
+                        <div class="form-group" id="medicaid-details-2" style="display:none;">
+                            <label for="cta-medicaid-carrier">Name of Medicaid Carrier</label>
+                            <input type="text" id="cta-medicaid-carrier" name="Medicaid Carrier" placeholder="e.g., Total Care, UHC, Healthy Blue">
+                        </div>
+                        <div class="form-group" id="medicaid-details-3" style="display:none;">
+                            <label for="cta-medicaid-id">Carrier ID #</label>
+                            <input type="text" id="cta-medicaid-id" name="Medicaid Carrier ID" placeholder="Carrier ID number">
+                        </div>
+
+                        <!-- Other Insurance -->
+                        <div class="form-group full-width">
+                            <label>Other Insurance</label>
+                            <div class="checkbox-group">
+                                <label class="checkbox-label">
+                                    <input type="radio" name="Other Insurance" value="Yes">
+                                    <span class="checkmark"></span>
+                                    Yes
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="radio" name="Other Insurance" value="No">
+                                    <span class="checkmark"></span>
+                                    No
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group full-width" id="other-ins-details" style="display:none;">
+                            <label for="cta-ins-name">Name of Insurance</label>
+                            <input type="text" id="cta-ins-name" name="Other Insurance Name" placeholder="Insurance company name">
+                        </div>
+                        <div class="form-group" id="other-ins-details-2" style="display:none;">
+                            <label for="cta-insurer-name">Insurer's Name</label>
+                            <input type="text" id="cta-insurer-name" name="Insurer Name" placeholder="Name on the policy">
+                        </div>
+                        <div class="form-group" id="other-ins-details-3" style="display:none;">
+                            <label for="cta-insurer-dob">Insurer's Date of Birth</label>
+                            <input type="date" id="cta-insurer-dob" name="Insurer DOB">
+                        </div>
+                        <div class="form-group" id="other-ins-details-4" style="display:none;">
+                            <label for="cta-insurer-employer">Insurer's Employer</label>
+                            <input type="text" id="cta-insurer-employer" name="Insurer Employer" placeholder="Employer name">
+                        </div>
+                        <div class="form-group" id="other-ins-details-5" style="display:none;">
+                            <label for="cta-ins-id">Insurance ID #</label>
+                            <input type="text" id="cta-ins-id" name="Insurance ID Number" placeholder="Policy ID number">
+                        </div>
+                        <div class="form-group" id="other-ins-details-6" style="display:none;">
+                            <label for="cta-ins-group">Group #</label>
+                            <input type="text" id="cta-ins-group" name="Insurance Group Number" placeholder="Group number">
+                        </div>
+
+                        <div class="form-group full-width">
+                            <label for="cta-parental-availability">Parental Availability</label>
+                            <input type="text" id="cta-parental-availability" name="Parental Availability" placeholder="e.g., Weekdays after 3pm, weekends">
+                        </div>
+                        <div class="form-group full-width">
+                            <label for="cta-referral-issues">Referral Issues</label>
+                            <textarea id="cta-referral-issues" name="CTA Referral Issues" rows="4" placeholder="Describe specific concerns, behaviors, or goals for CTA services..."></textarea>
+                        </div>
+                        <div class="form-group full-width">
+                            <label for="cta-pcp">PCP Name</label>
+                            <input type="text" id="cta-pcp" name="PCP Name" placeholder="Primary care physician">
+                        </div>
+                        <div class="form-group full-width">
+                            <label for="cta-probation-officer">Probation Officer Name and Phone #</label>
+                            <input type="text" id="cta-probation-officer" name="Probation Officer" placeholder="Name and phone number (if applicable)">
+                        </div>
+                        <div class="form-group full-width">
+                            <label for="cta-referral-person">Name &amp; Phone # of Person Making Referral</label>
+                            <input type="text" id="cta-referral-person" name="Person Making Referral" placeholder="Name and contact number">
+                        </div>
+                        <div class="form-group full-width">
+                            <label for="cta-others-involved">Others Involved in the Case</label>
+                            <input type="text" id="cta-others-involved" name="Others Involved" placeholder="Names and roles of others involved">
+                        </div>
+                        <div class="form-group">
+                            <label for="cta-school">School</label>
+                            <input type="text" id="cta-school" name="School" placeholder="School name">
+                        </div>
+                        <div class="form-group">
+                            <label for="cta-grade">Grade</label>
+                            <input type="text" id="cta-grade" name="Grade" placeholder="e.g., 5th, 10th, N/A">
+                        </div>
+
+                        <!-- Email -->
+                        <div class="form-group full-width">
+                            <label>Do you have email?</label>
+                            <div class="checkbox-group">
+                                <label class="checkbox-label">
+                                    <input type="radio" name="Has Email" value="Yes">
+                                    <span class="checkmark"></span>
+                                    Yes
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="radio" name="Has Email" value="No">
+                                    <span class="checkmark"></span>
+                                    No
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group full-width" id="email-address-group" style="display:none;">
+                            <label for="cta-email">Email Address</label>
+                            <input type="email" id="cta-email" name="Client Email" placeholder="client@example.com">
+                        </div>
+
+                        <div class="form-group full-width">
+                            <label>Can you print off paperwork?</label>
+                            <div class="checkbox-group">
+                                <label class="checkbox-label">
+                                    <input type="radio" name="Can Print Paperwork" value="Yes">
+                                    <span class="checkmark"></span>
+                                    Yes
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="radio" name="Can Print Paperwork" value="No">
+                                    <span class="checkmark"></span>
+                                    No
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group full-width">
+                            <label>Do you currently see a therapist?</label>
+                            <div class="checkbox-group">
+                                <label class="checkbox-label">
+                                    <input type="radio" name="Currently Sees Therapist" value="Yes">
+                                    <span class="checkmark"></span>
+                                    Yes
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="radio" name="Currently Sees Therapist" value="No">
+                                    <span class="checkmark"></span>
+                                    No
+                                </label>
+                            </div>
                         </div>
                     </div>
                 </div>
