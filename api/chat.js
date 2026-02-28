@@ -114,6 +114,9 @@ Radio button fields (must use exact values):
 - "can-print": "Yes" or "No"
 - "sees-therapist": "Yes" or "No"
 
+Optional action field:
+- "action": "submit" — include this ONLY when the user explicitly says they are ready to submit, done, or wants to send the form. Do not include it otherwise.
+
 Example — if user says "I'm referring John Smith, he's 14 years old and needs youth counseling":
 {
   "reply": "Got it! I've filled in John's name and selected Youth & Adolescent Counseling. What is John's date of birth and address?",
@@ -122,6 +125,13 @@ Example — if user says "I'm referring John Smith, he's 14 years old and needs 
     "client-age": "14",
     "services": ["Youth & Adolescent Counseling"]
   }
+}
+
+Example — if user says "ok I'm ready to submit" or "go ahead and send it":
+{
+  "reply": "Great — submitting the referral now!",
+  "fields": {},
+  "action": "submit"
 }`;
 
 const PAGE_CONTEXT = {
@@ -201,8 +211,9 @@ export default async function handler(req, res) {
 
     const reply = parsed.reply || 'Sorry, I could not generate a response. Please call us at 308-856-9949.';
     const fields = parsed.fields && typeof parsed.fields === 'object' ? parsed.fields : {};
+    const action = parsed.action === 'submit' ? 'submit' : null;
 
-    return res.status(200).json({ reply, fields });
+    return res.status(200).json({ reply, fields, action });
   } catch (err) {
     console.error('Chat handler error:', err);
     return res.status(500).json({

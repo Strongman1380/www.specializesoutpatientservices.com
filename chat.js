@@ -236,6 +236,43 @@
     });
   }
 
+  // ─── Submit referral form ─────────────────────────────────────────────────────
+  function handleSubmit() {
+    if (PAGE_CONTEXT !== 'referral') return;
+
+    // Check required fields before submitting
+    const missing = [];
+
+    if (!document.getElementById('ref-date')?.value)         missing.push('Date (Section 1)');
+    if (!document.getElementById('client-name')?.value)      missing.push('Client Name (Section 1)');
+    if (!document.getElementById('referral-source')?.value)  missing.push('Referral Source (Section 1)');
+    if (!document.getElementById('contact-number')?.value)   missing.push('Contact Number (Section 2)');
+    if (!document.getElementById('presenting-concerns')?.value) missing.push('Presenting Concerns (Section 3)');
+
+    const servicesChecked = document.querySelectorAll('input[name="Services Requested"]:checked').length;
+    if (servicesChecked === 0) missing.push('At least one Service (Section 3)');
+
+    const locationChecked = document.querySelector('input[name="Service Location"]:checked');
+    if (!locationChecked) missing.push('Service Location (Section 3)');
+
+    if (missing.length > 0) {
+      appendBubble(
+        'assistant',
+        'Before I can submit, a few required fields still need to be filled in:\n• ' + missing.join('\n• ') + '\n\nLet me know these details and I\'ll fill them in for you.'
+      );
+      return;
+    }
+
+    // All required fields present — click the existing submit button
+    const submitBtn = document.getElementById('referralSubmitBtn');
+    if (submitBtn) {
+      submitBtn.click();
+      appendBubble('assistant', 'The referral has been submitted! The S.O.S. Counseling team will follow up shortly. Is there anything else I can help you with?');
+    } else {
+      appendBubble('assistant', 'The form is ready — please click the "Submit Referral" button at the bottom of the page to send it.');
+    }
+  }
+
   // ─── Open / Close panel ───────────────────────────────────────────────────────
   function openPanel() {
     isOpen = true;
@@ -312,6 +349,9 @@
 
       // Populate form fields if the API returned any
       if (data.fields) fillFields(data.fields);
+
+      // Handle submit action
+      if (data.action === 'submit') handleSubmit();
 
       // Store only the text reply in history (not the JSON fields)
       conversationHistory.push({ role: 'assistant', content: reply });
