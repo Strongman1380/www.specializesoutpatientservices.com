@@ -316,6 +316,19 @@ function initContactForm() {
                 });
                 navigator.sendBeacon(CONTACT_SHEETS_URL, sheetsPayload);
 
+                // Send SMS notification via Twilio (fire-and-forget)
+                fetch('/api/notify', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        name: data.name,
+                        email: data.email,
+                        phone: data.phone || '',
+                        service: data.service || '',
+                        message: data.message || '',
+                    }),
+                }).catch(() => {}); // non-blocking — don't interrupt the user flow
+
                 form.reset();
                 showToast('Message sent successfully! We\'ll be in touch soon.', 'success');
             } else {

@@ -1,0 +1,685 @@
+/* ============================================================
+   S.O.S. Counseling — CTA Service Page Styles
+   ============================================================ */
+
+/* ── Hero ─────────────────────────────────────────────────── */
+.cta-hero {
+    background: linear-gradient(135deg, #8B1A1A 0%, #6E1515 60%, #4A0E0E 100%);
+    color: #fff;
+    padding: 140px 0 80px;
+    position: relative;
+    overflow: hidden;
+}
+
+.cta-hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    pointer-events: none;
+}
+
+.cta-hero-content {
+    position: relative;
+    max-width: 680px;
+}
+
+.cta-hero-content .section-tag {
+    color: rgba(255, 255, 255, 0.75);
+    border-color: rgba(255, 255, 255, 0.25);
+}
+
+.cta-hero-content .section-title {
+    color: #fff;
+    margin-bottom: 20px;
+}
+
+.cta-hero-description {
+    font-size: 1.15rem;
+    line-height: 1.7;
+    color: rgba(255, 255, 255, 0.88);
+    margin-bottom: 36px;
+    font-family: 'Open Sans', sans-serif;
+}
+
+.cta-hero-buttons {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+/* ── What Is CTA ──────────────────────────────────────────── */
+.cta-what {
+    padding: 90px 0;
+    background: #fff;
+}
+
+.cta-what-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 72px;
+    align-items: start;
+}
+
+.cta-what-text .section-title {
+    margin-bottom: 24px;
+}
+
+.cta-what-text p {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 0.975rem;
+    line-height: 1.75;
+    color: #4A3530;
+    margin-bottom: 18px;
+}
+
+.cta-highlight-card {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+    padding: 20px 0;
+    border-bottom: 1px solid #F0E4E0;
+}
+
+.cta-highlight-card:last-child {
+    border-bottom: none;
+}
+
+.cta-highlight-icon {
+    flex-shrink: 0;
+    width: 44px;
+    height: 44px;
+    background: #F0E4E0;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #8B1A1A;
+}
+
+.cta-highlight-icon svg {
+    width: 22px;
+    height: 22px;
+}
+
+.cta-highlight-card h3 {
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: #2D2522;
+    margin: 0 0 4px;
+}
+
+.cta-highlight-card p {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 0.875rem;
+    color: #6B5248;
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* ── Focus Areas ──────────────────────────────────────────── */
+.cta-focus {
+    padding: 90px 0;
+    background: #FAF5F3;
+}
+
+.cta-focus-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 28px;
+    margin-top: 52px;
+}
+
+.cta-focus-card {
+    background: #fff;
+    border-radius: 16px;
+    padding: 32px 28px;
+    border: 1px solid #EDE0DC;
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.cta-focus-card:hover {
+    box-shadow: 0 8px 32px rgba(139, 26, 26, 0.1);
+    transform: translateY(-3px);
+}
+
+.cta-focus-icon {
+    width: 52px;
+    height: 52px;
+    background: #F0E4E0;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #8B1A1A;
+    margin-bottom: 18px;
+}
+
+.cta-focus-icon svg {
+    width: 24px;
+    height: 24px;
+}
+
+.cta-focus-card h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    color: #2D2522;
+    margin: 0 0 10px;
+}
+
+.cta-focus-card p {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 0.875rem;
+    color: #6B5248;
+    line-height: 1.65;
+    margin: 0;
+}
+
+/* ── Why SOS ──────────────────────────────────────────────── */
+.cta-why {
+    padding: 90px 0;
+    background: #fff;
+}
+
+.cta-why-grid {
+    display: grid;
+    grid-template-columns: 3fr 2fr;
+    gap: 72px;
+    align-items: start;
+    margin-top: 52px;
+}
+
+.cta-why-lead {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 1.05rem;
+    line-height: 1.7;
+    color: #4A3530;
+    margin-bottom: 32px;
+    font-style: italic;
+}
+
+.cta-why-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.cta-why-list li {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+}
+
+.cta-why-check {
+    flex-shrink: 0;
+    width: 28px;
+    height: 28px;
+    background: #8B1A1A;
+    color: #fff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+    font-weight: 700;
+    margin-top: 2px;
+}
+
+.cta-why-list li > div strong {
+    display: block;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #2D2522;
+    margin-bottom: 4px;
+}
+
+.cta-why-list li > div p {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 0.875rem;
+    color: #6B5248;
+    line-height: 1.65;
+    margin: 0;
+}
+
+/* CTA team cards in Why section */
+.cta-why-team {
+    position: sticky;
+    top: 100px;
+}
+
+.cta-why-team h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.4rem;
+    color: #2D2522;
+    margin: 0 0 24px;
+}
+
+.cta-team-cards {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.cta-team-card {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    background: #FAF5F3;
+    border-radius: 14px;
+    padding: 18px;
+    border: 1px solid #EDE0DC;
+}
+
+.cta-team-card img {
+    width: 68px;
+    height: 68px;
+    border-radius: 50%;
+    object-fit: cover;
+    object-position: top center;
+    flex-shrink: 0;
+    border: 3px solid #fff;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+}
+
+.cta-team-info h4 {
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: #2D2522;
+    margin: 0 0 2px;
+}
+
+.cta-team-title {
+    display: block;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 0.75rem;
+    color: #8B1A1A;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 6px;
+}
+
+.cta-team-info p {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 0.825rem;
+    color: #6B5248;
+    line-height: 1.5;
+    margin: 0;
+}
+
+.cta-team-note {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 0.825rem;
+    color: #8A7570;
+    line-height: 1.6;
+    margin: 0;
+    padding: 14px 16px;
+    background: #F0E4E0;
+    border-radius: 10px;
+    border-left: 3px solid #D4A574;
+}
+
+/* ── Referral Process ─────────────────────────────────────── */
+.cta-referral {
+    padding: 90px 0;
+    background: #FAF5F3;
+}
+
+.cta-steps {
+    margin-top: 52px;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    position: relative;
+}
+
+.cta-steps::before {
+    content: '';
+    position: absolute;
+    left: 27px;
+    top: 28px;
+    bottom: 28px;
+    width: 2px;
+    background: #EDE0DC;
+}
+
+.cta-step {
+    display: flex;
+    gap: 28px;
+    align-items: flex-start;
+    position: relative;
+    padding-bottom: 40px;
+}
+
+.cta-step:last-child {
+    padding-bottom: 0;
+}
+
+.cta-step-number {
+    flex-shrink: 0;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: #8B1A1A;
+    color: #fff;
+    font-family: 'Playfair Display', serif;
+    font-size: 1.4rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    z-index: 1;
+    box-shadow: 0 4px 12px rgba(139, 26, 26, 0.3);
+}
+
+.cta-step-content {
+    padding-top: 12px;
+    flex: 1;
+}
+
+.cta-step-content h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.2rem;
+    color: #2D2522;
+    margin: 0 0 10px;
+}
+
+.cta-step-content p {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 0.9rem;
+    color: #6B5248;
+    line-height: 1.7;
+    margin: 0 0 12px;
+}
+
+.cta-step-link {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #8B1A1A;
+    text-decoration: none;
+    transition: color 0.15s ease;
+}
+
+.cta-step-link:hover {
+    color: #6E1515;
+    text-decoration: underline;
+}
+
+/* ── Who Can Refer ────────────────────────────────────────── */
+.cta-who {
+    padding: 90px 0;
+    background: #fff;
+}
+
+.cta-who-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 72px;
+    align-items: start;
+    margin-top: 0;
+}
+
+.cta-who-text .section-title {
+    margin-bottom: 20px;
+}
+
+.cta-who-text > p {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 0.975rem;
+    color: #4A3530;
+    line-height: 1.7;
+    margin-bottom: 16px;
+}
+
+.cta-who-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.cta-who-list li {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 0.9rem;
+    color: #4A3530;
+    padding-left: 20px;
+    position: relative;
+    line-height: 1.5;
+}
+
+.cta-who-list li::before {
+    content: '–';
+    position: absolute;
+    left: 0;
+    color: #8B1A1A;
+    font-weight: 700;
+}
+
+.cta-inline-link {
+    color: #8B1A1A;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.cta-inline-link:hover {
+    text-decoration: underline;
+}
+
+.cta-cta-box {
+    background: linear-gradient(135deg, #8B1A1A 0%, #6E1515 100%);
+    border-radius: 20px;
+    padding: 44px 36px;
+    color: #fff;
+    text-align: center;
+    position: sticky;
+    top: 100px;
+}
+
+.cta-cta-box h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.6rem;
+    color: #fff;
+    margin: 0 0 14px;
+}
+
+.cta-cta-box > p {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 0.9rem;
+    color: rgba(255,255,255,0.85);
+    line-height: 1.65;
+    margin-bottom: 28px;
+}
+
+.cta-cta-box .btn-primary {
+    background: #fff;
+    color: #8B1A1A;
+    width: 100%;
+    text-align: center;
+    justify-content: center;
+    font-weight: 700;
+}
+
+.cta-cta-box .btn-primary:hover {
+    background: #F0E4E0;
+}
+
+.cta-cta-divider {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 0.8rem;
+    color: rgba(255,255,255,0.6);
+    margin: 18px 0;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.cta-cta-phone {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 1rem;
+    color: rgba(255,255,255,0.9);
+    margin: 0 0 6px;
+}
+
+.cta-cta-phone a {
+    color: #D4A574;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.cta-cta-phone a:hover {
+    text-decoration: underline;
+}
+
+.cta-cta-hours {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 0.825rem;
+    color: rgba(255,255,255,0.6);
+    margin: 0;
+}
+
+/* ── Promo Banner (index.html) ────────────────────────────── */
+.cta-promo-banner {
+    background: linear-gradient(135deg, #8B1A1A 0%, #6E1515 100%);
+    padding: 60px 0;
+}
+
+.cta-promo-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 40px;
+}
+
+.cta-promo-text h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.6rem;
+    color: #fff;
+    margin: 0 0 10px;
+}
+
+.cta-promo-text p {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 0.95rem;
+    color: rgba(255, 255, 255, 0.85);
+    line-height: 1.65;
+    margin: 0;
+    max-width: 560px;
+}
+
+.cta-promo-actions {
+    display: flex;
+    gap: 14px;
+    flex-shrink: 0;
+    flex-wrap: wrap;
+}
+
+.cta-promo-actions .btn-primary {
+    background: #fff;
+    color: #8B1A1A;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.cta-promo-actions .btn-primary:hover {
+    background: #F0E4E0;
+}
+
+.cta-promo-actions .btn-secondary {
+    border-color: rgba(255, 255, 255, 0.5);
+    color: #fff;
+    white-space: nowrap;
+}
+
+.cta-promo-actions .btn-secondary:hover {
+    border-color: #fff;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+@media (max-width: 768px) {
+    .cta-promo-inner {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .cta-promo-actions {
+        justify-content: center;
+    }
+}
+
+/* ── Responsive ───────────────────────────────────────────── */
+@media (max-width: 900px) {
+    .cta-what-grid,
+    .cta-why-grid,
+    .cta-who-grid {
+        grid-template-columns: 1fr;
+        gap: 48px;
+    }
+
+    .cta-focus-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .cta-why-team {
+        position: static;
+    }
+
+    .cta-cta-box {
+        position: static;
+    }
+
+    .cta-team-cards {
+        flex-direction: row;
+    }
+
+    .cta-team-card {
+        flex: 1;
+        flex-direction: column;
+        text-align: center;
+    }
+}
+
+@media (max-width: 600px) {
+    .cta-hero {
+        padding: 120px 0 60px;
+    }
+
+    .cta-what,
+    .cta-focus,
+    .cta-why,
+    .cta-referral,
+    .cta-who {
+        padding: 60px 0;
+    }
+
+    .cta-focus-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .cta-hero-buttons {
+        flex-direction: column;
+    }
+
+    .cta-team-cards {
+        flex-direction: column;
+    }
+
+    .cta-steps::before {
+        display: none;
+    }
+
+    .cta-step-number {
+        width: 44px;
+        height: 44px;
+        font-size: 1.1rem;
+    }
+}
