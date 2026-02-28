@@ -2020,17 +2020,87 @@ button {
 /* ================================
    Print Styles
    ================================ */
+/* ── Print header (referral form branding) — hidden on screen ── */
+.referral-print-header {
+    display: none;
+}
+
+.print-logo {
+    display: none;
+    max-height: 80px;
+    width: auto;
+    object-fit: contain;
+}
+
+.print-logo--active {
+    display: block;
+}
+
+.print-header-info {
+    margin-top: 8px;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 0.85rem;
+    color: #555;
+    line-height: 1.5;
+}
+
 @media print {
     .navbar,
     .back-to-top,
     .scroll-indicator,
-    .hero-particles {
+    .hero-particles,
+    .referral-hero,
+    .footer,
+    .sos-chat-toggle,
+    .sos-chat-panel,
+    #sos-chat-toggle,
+    #sos-chat-panel {
+        display: none !important;
+    }
+
+    body {
+        font-size: 11pt;
+        color: #000;
+    }
+
+    .referral-form-section {
+        padding: 0 !important;
+    }
+
+    .referral-form-section .container {
+        max-width: 100% !important;
+        padding: 0 !important;
+    }
+
+    /* Show the print header */
+    .referral-print-header {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        padding: 12px 0 16px;
+        border-bottom: 2px solid #8B1A1A;
+        margin-bottom: 20px;
+    }
+
+    /* Only the active logo prints */
+    .print-logo {
         display: none;
     }
 
-    .hero {
-        min-height: auto;
-        padding: 60px 0;
+    .print-logo--active {
+        display: block;
+        max-height: 70px;
+    }
+
+    /* Hide submit button and chat on print */
+    #referralSubmitBtn,
+    .form-submit-area {
+        display: none !important;
+    }
+
+    .form-section {
+        page-break-inside: avoid;
+        margin-bottom: 16px;
     }
 
     section {

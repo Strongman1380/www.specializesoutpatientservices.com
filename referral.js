@@ -16,6 +16,7 @@ document.addEventListener('DOMContentLoaded', function() {
     initProviderDropdowns();
     initCtaIntakeToggle();
     initCtaSubToggles();
+    initPrintLogoSwap();
     // Start with CTA section fields disabled (excluded from FormData until shown)
     hideCTAIntakeSection(false);
 });
@@ -183,6 +184,32 @@ function initOtherLocationToggle() {
             }
         });
     });
+}
+
+/**
+ * Swap the print header logo based on the selected preferred therapist.
+ * Cindy, Jenna, and Trey each have their own logo; all others use the SOS logo.
+ */
+function initPrintLogoSwap() {
+    const select = document.getElementById('preferred-therapist');
+    if (!select) return;
+
+    function updateLogo() {
+        const val = select.value;
+        document.querySelectorAll('.print-logo').forEach(img => {
+            const therapist = img.getAttribute('data-therapist');
+            const isMatch = therapist === val ||
+                (therapist === '' && (
+                    val === 'First Available' ||
+                    val === 'Alisha Thompson, PLMHP PCMSW' ||
+                    !val
+                ));
+            img.classList.toggle('print-logo--active', isMatch);
+        });
+    }
+
+    select.addEventListener('change', updateLogo);
+    updateLogo(); // set initial state
 }
 
 /**
