@@ -2020,72 +2020,17 @@ button {
 /* ================================
    Print Styles
    ================================ */
-/* ── Print header (referral form branding) ── */
-/* JS beforeprint/afterprint events control display — CSS just provides layout */
-.referral-print-header {
-    display: none;
-    align-items: center;
-    gap: 16px;
-    padding: 12px 0 16px;
-    border-bottom: 2px solid #8B1A1A;
-    margin-bottom: 20px;
-}
-
-.print-logo {
-    display: none;
-    max-height: 80px;
-    width: auto;
-    object-fit: contain;
-}
-
-.print-header-info {
-    font-family: 'Open Sans', sans-serif;
-    font-size: 0.85rem;
-    color: #333;
-    line-height: 1.6;
-}
-
-.print-header-info p {
-    margin: 0;
-}
-
 @media print {
     .navbar,
     .back-to-top,
     .scroll-indicator,
-    .hero-particles,
-    .referral-hero,
-    .footer,
-    .sos-chat-toggle,
-    .sos-chat-panel,
-    #sos-chat-toggle,
-    #sos-chat-panel {
-        display: none !important;
+    .hero-particles {
+        display: none;
     }
 
-    body {
-        font-size: 11pt;
-        color: #000;
-    }
-
-    .referral-form-section {
-        padding: 0 !important;
-    }
-
-    .referral-form-section .container {
-        max-width: 100% !important;
-        padding: 0 !important;
-    }
-
-    /* Hide submit button on print */
-    #referralSubmitBtn,
-    .form-submit-area {
-        display: none !important;
-    }
-
-    .form-section {
-        page-break-inside: avoid;
-        margin-bottom: 16px;
+    .hero {
+        min-height: auto;
+        padding: 60px 0;
     }
 
     section {

@@ -16,7 +16,6 @@ document.addEventListener('DOMContentLoaded', function() {
     initProviderDropdowns();
     initCtaIntakeToggle();
     initCtaSubToggles();
-    initPrintLogoSwap();
     // Start with CTA section fields disabled (excluded from FormData until shown)
     hideCTAIntakeSection(false);
 });
@@ -184,59 +183,6 @@ function initOtherLocationToggle() {
             }
         });
     });
-}
-
-/**
- * Show the correct provider logo in the print header when the page is printed.
- * Uses beforeprint/afterprint events so inline styles are set directly —
- * more reliable across browsers than CSS media query cascade.
- */
-function initPrintLogoSwap() {
-    const header = document.getElementById('referral-print-header');
-    if (!header) return;
-
-    const logos = {
-        sos:   document.getElementById('print-logo-sos'),
-        cindy: document.getElementById('print-logo-cindy'),
-        jenna: document.getElementById('print-logo-jenna'),
-        trey:  document.getElementById('print-logo-trey'),
-    };
-
-    function getActiveLogo() {
-        const select = document.getElementById('preferred-therapist');
-        const val = select ? select.value : '';
-        if (val === 'Cindy Kissack, MS LIMHP')         return 'cindy';
-        if (val === 'Jenna Davis, MS LIMHP')           return 'jenna';
-        if (val === 'Trey Kissack, PLMHP (Bilingual)') return 'trey';
-        return 'sos';
-    }
-
-    function showPrintHeader() {
-        const active = getActiveLogo();
-        header.style.display = 'flex';
-        Object.entries(logos).forEach(function(entry) {
-            var key = entry[0], img = entry[1];
-            if (img) img.style.display = key === active ? 'block' : 'none';
-        });
-    }
-
-    function hidePrintHeader() {
-        header.style.display = 'none';
-        Object.values(logos).forEach(function(img) {
-            if (img) img.style.display = 'none';
-        });
-    }
-
-    window.addEventListener('beforeprint', showPrintHeader);
-    window.addEventListener('afterprint', hidePrintHeader);
-
-    // Safari fallback — matchMedia fires instead of beforeprint in some versions
-    if (window.matchMedia) {
-        var mq = window.matchMedia('print');
-        mq.addEventListener('change', function(e) {
-            if (e.matches) { showPrintHeader(); } else { hidePrintHeader(); }
-        });
-    }
 }
 
 /**
