@@ -1,0 +1,317 @@
+/* ============================================================
+   S.O.S. Counseling — Custom Chat Widget Styles
+   Sits above back-to-top (z-index 999) and toast (z-index 1000)
+   ============================================================ */
+
+/* ── Toggle button ─────────────────────────────────────────── */
+.sos-chat-toggle {
+  position: fixed;
+  /* back-to-top is at bottom: 30px, height 50px → this clears it with 10px gap */
+  bottom: 90px;
+  right: 30px;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: #8B1A1A;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 4px 16px rgba(139, 26, 26, 0.40);
+  z-index: 1001;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  /* Isolated from page stacking contexts */
+  isolation: isolate;
+}
+
+.sos-chat-toggle:hover {
+  transform: scale(1.08);
+  box-shadow: 0 6px 20px rgba(139, 26, 26, 0.55);
+}
+
+.sos-chat-toggle:focus-visible {
+  outline: 3px solid #D4A574;
+  outline-offset: 3px;
+}
+
+/* Notification dot — hidden after first open via JS */
+.sos-chat-badge {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  width: 11px;
+  height: 11px;
+  background: #D4A574;
+  border-radius: 50%;
+  border: 2px solid #8B1A1A;
+  pointer-events: none;
+}
+
+/* ── Chat panel ────────────────────────────────────────────── */
+.sos-chat-panel {
+  position: fixed;
+  bottom: 158px; /* above toggle button (90px + 56px + 12px gap) */
+  right: 30px;
+  width: 360px;
+  height: 520px;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.18), 0 4px 16px rgba(0, 0, 0, 0.08);
+  display: flex;
+  flex-direction: column;
+  z-index: 1002;
+  overflow: hidden;
+  /* Hidden state */
+  transform: translateY(20px) scale(0.96);
+  opacity: 0;
+  visibility: hidden;
+  transition: transform 0.25s ease, opacity 0.25s ease, visibility 0.25s ease;
+  isolation: isolate;
+}
+
+.sos-chat-panel.open {
+  transform: translateY(0) scale(1);
+  opacity: 1;
+  visibility: visible;
+}
+
+/* ── Header ────────────────────────────────────────────────── */
+.sos-chat-header {
+  background: #8B1A1A;
+  color: #fff;
+  padding: 14px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-shrink: 0;
+}
+
+.sos-chat-header-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.sos-chat-avatar {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 700;
+  font-size: 0.65rem;
+  letter-spacing: 0.5px;
+  flex-shrink: 0;
+}
+
+.sos-chat-name {
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 700;
+  font-size: 0.9rem;
+  margin: 0;
+  line-height: 1.2;
+}
+
+.sos-chat-status {
+  font-family: 'Open Sans', sans-serif;
+  font-size: 0.75rem;
+  opacity: 0.85;
+  margin: 0;
+  line-height: 1.2;
+}
+
+.sos-chat-close {
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.85);
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.15s ease, background 0.15s ease;
+  flex-shrink: 0;
+}
+
+.sos-chat-close:hover {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.sos-chat-close:focus-visible {
+  outline: 2px solid #D4A574;
+  outline-offset: 2px;
+}
+
+/* ── Message area ──────────────────────────────────────────── */
+.sos-chat-messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  scroll-behavior: smooth;
+}
+
+.sos-chat-messages::-webkit-scrollbar {
+  width: 5px;
+}
+
+.sos-chat-messages::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.sos-chat-messages::-webkit-scrollbar-thumb {
+  background: #D8CCC8;
+  border-radius: 3px;
+}
+
+/* ── Message bubbles ───────────────────────────────────────── */
+.sos-chat-bubble {
+  max-width: 85%;
+  padding: 10px 14px;
+  border-radius: 16px;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 0.875rem;
+  line-height: 1.55;
+  word-wrap: break-word;
+  white-space: pre-wrap;
+}
+
+/* Assistant / bot — left aligned, blush background */
+.sos-chat-bubble.assistant {
+  background: #F0E4E0;
+  color: #2D2522;
+  align-self: flex-start;
+  border-bottom-left-radius: 4px;
+}
+
+/* User — right aligned, maroon background */
+.sos-chat-bubble.user {
+  background: #8B1A1A;
+  color: #fff;
+  align-self: flex-end;
+  border-bottom-right-radius: 4px;
+}
+
+/* ── Typing indicator ──────────────────────────────────────── */
+.sos-chat-typing {
+  display: none;
+  padding: 4px 16px 8px;
+  align-items: center;
+  gap: 5px;
+  flex-shrink: 0;
+}
+
+.sos-chat-typing.active {
+  display: flex;
+}
+
+.sos-chat-typing span {
+  display: block;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #C5AEA8;
+  animation: sos-bounce 1.2s ease-in-out infinite;
+}
+
+.sos-chat-typing span:nth-child(2) { animation-delay: 0.2s; }
+.sos-chat-typing span:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes sos-bounce {
+  0%, 60%, 100% { transform: translateY(0); }
+  30%           { transform: translateY(-7px); }
+}
+
+/* ── Input area ────────────────────────────────────────────── */
+.sos-chat-input-area {
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+  padding: 10px 12px 12px;
+  border-top: 1px solid #EDE0DC;
+  flex-shrink: 0;
+}
+
+.sos-chat-textarea {
+  flex: 1;
+  resize: none;
+  border: 1.5px solid #DDD0CB;
+  border-radius: 20px;
+  padding: 9px 14px;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 0.875rem;
+  color: #2D2522;
+  background: #FAF5F3;
+  max-height: 100px;
+  overflow-y: auto;
+  line-height: 1.4;
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+.sos-chat-textarea:focus {
+  outline: none;
+  border-color: #8B1A1A;
+  background: #fff;
+}
+
+.sos-chat-textarea::placeholder {
+  color: #A89490;
+}
+
+.sos-chat-send {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #8B1A1A;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: background 0.2s ease, transform 0.15s ease;
+}
+
+.sos-chat-send:hover:not(:disabled) {
+  background: #6E1515;
+  transform: scale(1.05);
+}
+
+.sos-chat-send:disabled {
+  background: #C5AEA8;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.sos-chat-send:focus-visible {
+  outline: 3px solid #D4A574;
+  outline-offset: 2px;
+}
+
+/* ── Mobile — full-screen panel ────────────────────────────── */
+@media (max-width: 480px) {
+  .sos-chat-toggle {
+    bottom: 20px;
+    right: 20px;
+    width: 52px;
+    height: 52px;
+  }
+
+  .sos-chat-panel {
+    bottom: 0;
+    right: 0;
+    width: 100%;
+    height: 85vh;
+    border-radius: 20px 20px 0 0;
+  }
+}
