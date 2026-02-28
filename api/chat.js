@@ -51,14 +51,78 @@ The contact form on the home page has: name (required), email (required), phone 
 
 BEHAVIOR RULES
 - Be warm, professional, and concise. This is a mental health practice — empathy matters.
-- Your primary job on the referral page is to actively help users complete the referral form. Walk them through each section, explain what each field means, tell them what information to gather, and answer any question about the form. Do not refuse or deflect referral form questions.
-- You are a guide — you explain fields and help users understand what to enter directly into the form themselves. You do not submit the form or store any data; the user types into the form on the page.
+- Your primary job on the referral page is to actively help users complete the referral form. Walk them through each section, explain what each field means, and when the user provides information, populate it into the fields object so the form fills in automatically.
 - Never diagnose, recommend medication, or provide clinical advice.
 - CRISIS PROTOCOL: If someone mentions self-harm, suicidal thoughts, or is in crisis, immediately respond with: the 988 Suicide & Crisis Lifeline (call or text 988), the Crisis Text Line (text HOME to 741741), and encourage calling 911 if in immediate danger. Do this before anything else.
 - Keep responses concise — 2 to 4 sentences for most answers. Use a short bullet list only when listing multiple items or steps.
 - If you do not know the answer, say so honestly and direct them to call 308-856-9949.
 - Do not invent services, providers, or policies not listed above.
-- Respond in the same language the user writes in (English or Spanish).`;
+- Respond in the same language the user writes in (English or Spanish).
+
+RESPONSE FORMAT — CRITICAL
+You must ALWAYS respond with valid JSON in exactly this structure:
+{
+  "reply": "Your conversational message to the user",
+  "fields": {}
+}
+
+When the user provides information to fill into the referral form, extract it and include it in "fields" using these exact keys. Only include keys when you have a real value from the user — never guess or invent values.
+
+Text/textarea fields (string values):
+- "ref-date": today's date or date mentioned, format YYYY-MM-DD
+- "client-name": full name of the client being referred
+- "client-address": client's street address, city, state, zip
+- "referral-source": name and/or agency of the person making the referral
+- "referral-phone": referral source phone number
+- "referral-fax": referral source fax number
+- "referral-address": referral source address
+- "client-dob": client date of birth, format YYYY-MM-DD
+- "client-age": client's age as a string number
+- "residing-with": who the client lives with (e.g., "Mary Smith, Mother")
+- "client-address-2": client's residence address if different from above
+- "contact-number": client contact phone number
+- "presenting-concerns": description of the client's presenting concerns and reason for referral
+- "diagnosis": known diagnosis if mentioned (e.g., "ADHD", "PTSD")
+- "other-location": specify location if service-location is "Other"
+- "policy-number": insurance policy number
+- "group-number": insurance group number
+- "insurance-phone": insurance phone number
+- "cta-parent-names": parent names for CTA intake
+- "cta-parental-availability": when parents are available
+- "cta-referral-issues": specific concerns/goals for CTA services
+- "cta-pcp": primary care physician name
+- "cta-probation-officer": probation officer name and phone (if applicable)
+- "cta-referral-person": name and contact of person making referral
+- "cta-others-involved": names and roles of others involved in the case
+- "cta-school": school name
+- "cta-grade": grade level
+
+Select/dropdown fields (must use exact option values):
+- "client-gender": one of — "Male", "Female", "Non-binary", "Prefer not to say"
+- "preferred-therapist": one of — "First Available", "Cindy Kissack, MS LIMHP", "Jenna Davis, MS LIMHP", "Trey Kissack, PLMHP (Bilingual)", "Alisha Thompson, PLMHP PCMSW"
+- "preferred-cta": one of — "First Available", "Shayla Punchocar", "Brandon Hinrichs"
+
+Checkbox field (array — include all that apply):
+- "services": array containing any of — "Youth & Adolescent Counseling", "Family Therapy", "Adult Individual Therapy", "Trauma & PTSD Treatment", "Community Treatment Aide (CTA)", "Bilingual Services (Spanish)"
+
+Radio button fields (must use exact values):
+- "service-location": one of — "In home", "In office", "Either location", "Other"
+- "insurance-type": one of — "Medicaid - Total Care", "Medicaid - UHC", "Medicaid - Healthy Blue (Auth needed)", "Other"
+- "medicaid": "Yes" or "No"
+- "other-insurance": "Yes" or "No"
+- "has-email": "Yes" or "No"
+- "can-print": "Yes" or "No"
+- "sees-therapist": "Yes" or "No"
+
+Example — if user says "I'm referring John Smith, he's 14 years old and needs youth counseling":
+{
+  "reply": "Got it! I've filled in John's name and selected Youth & Adolescent Counseling. What is John's date of birth and address?",
+  "fields": {
+    "client-name": "John Smith",
+    "client-age": "14",
+    "services": ["Youth & Adolescent Counseling"]
+  }
+}`;
 
 const PAGE_CONTEXT = {
   home: `
@@ -108,7 +172,8 @@ export default async function handler(req, res) {
       },
       body: JSON.stringify({
         model: 'gpt-4o-mini',
-        max_tokens: 512,
+        max_tokens: 768,
+        response_format: { type: 'json_object' },
         messages: [
           { role: 'system', content: systemPrompt },
           ...trimmedMessages,
@@ -125,11 +190,19 @@ export default async function handler(req, res) {
     }
 
     const data = await response.json();
-    const reply =
-      data.choices?.[0]?.message?.content ??
-      'Sorry, I could not generate a response. Please call us at 308-856-9949.';
+    const rawContent = data.choices?.[0]?.message?.content ?? '{}';
 
-    return res.status(200).json({ reply });
+    let parsed;
+    try {
+      parsed = JSON.parse(rawContent);
+    } catch (_) {
+      parsed = { reply: rawContent, fields: {} };
+    }
+
+    const reply = parsed.reply || 'Sorry, I could not generate a response. Please call us at 308-856-9949.';
+    const fields = parsed.fields && typeof parsed.fields === 'object' ? parsed.fields : {};
+
+    return res.status(200).json({ reply, fields });
   } catch (err) {
     console.error('Chat handler error:', err);
     return res.status(500).json({

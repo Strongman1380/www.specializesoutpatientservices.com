@@ -8,7 +8,7 @@
   // ─── Welcome messages per page ───────────────────────────────────────────────
   const WELCOME = {
     home: "Hi there! I'm the S.O.S. Counseling assistant. I can answer questions about our services, team, location, and how to get started. How can I help you today?",
-    referral: "Hi! I'm here to help you complete the referral form. Feel free to ask me about any field, what information is required, or anything about our services. What do you need help with?",
+    referral: "Hi! I'm here to help you fill out this referral form. Just tell me about the client and what services they need — I'll fill in the fields as we go. Want to start from the beginning?",
   };
 
   // ─── State ───────────────────────────────────────────────────────────────────
@@ -133,6 +133,109 @@
     }
   }
 
+  // ─── Fill referral form fields ────────────────────────────────────────────────
+  function fillFields(fields) {
+    if (!fields || typeof fields !== 'object' || PAGE_CONTEXT !== 'referral') return;
+
+    const filled = [];
+
+    // Text / textarea / date / number fields — set by element ID
+    const textIds = [
+      'ref-date', 'client-name', 'client-address', 'referral-source',
+      'referral-phone', 'referral-fax', 'referral-address', 'client-dob',
+      'client-age', 'residing-with', 'client-address-2', 'contact-number',
+      'presenting-concerns', 'diagnosis', 'other-location',
+      'policy-number', 'group-number', 'insurance-phone',
+      'cta-parent-names', 'cta-parental-availability', 'cta-referral-issues',
+      'cta-pcp', 'cta-probation-officer', 'cta-referral-person',
+      'cta-others-involved', 'cta-school', 'cta-grade', 'cta-email',
+    ];
+
+    textIds.forEach(id => {
+      if (fields[id] !== undefined && fields[id] !== '') {
+        const el = document.getElementById(id);
+        if (el) { el.value = fields[id]; filled.push(id); }
+      }
+    });
+
+    // Select / dropdown fields — set by ID then dispatch change
+    const selectIds = ['client-gender', 'preferred-therapist', 'preferred-cta'];
+    selectIds.forEach(id => {
+      if (fields[id] !== undefined && fields[id] !== '') {
+        const el = document.getElementById(id);
+        if (el) {
+          el.value = fields[id];
+          el.dispatchEvent(new Event('change', { bubbles: true }));
+          filled.push(id);
+        }
+      }
+    });
+
+    // Checkboxes — Services Requested (array of values)
+    if (Array.isArray(fields.services) && fields.services.length > 0) {
+      fields.services.forEach(service => {
+        document.querySelectorAll('input[name="Services Requested"]').forEach(cb => {
+          if (cb.value === service && !cb.checked) {
+            cb.checked = true;
+            cb.dispatchEvent(new Event('change', { bubbles: true }));
+            filled.push('services:' + service);
+          }
+        });
+      });
+    }
+
+    // Radio button fields — { fieldKey: [radioName, value] }
+    const radioMap = {
+      'service-location': 'Service Location',
+      'insurance-type':   'Insurance Type',
+      'medicaid':         'Medicaid',
+      'other-insurance':  'Other Insurance',
+      'has-email':        'Has Email',
+      'can-print':        'Can Print Paperwork',
+      'sees-therapist':   'Currently Sees Therapist',
+    };
+
+    Object.entries(radioMap).forEach(([key, name]) => {
+      if (fields[key] !== undefined && fields[key] !== '') {
+        document.querySelectorAll(`input[name="${name}"]`).forEach(radio => {
+          if (radio.value === fields[key]) {
+            radio.checked = true;
+            radio.dispatchEvent(new Event('change', { bubbles: true }));
+            filled.push(key);
+          }
+        });
+      }
+    });
+
+    // Flash highlight on filled fields
+    if (filled.length > 0) {
+      flashFilledFields(filled);
+    }
+  }
+
+  function flashFilledFields(filledIds) {
+    filledIds.forEach(id => {
+      // For composite keys like "services:Youth..." grab the checkbox element
+      let el;
+      if (id.startsWith('services:')) {
+        const val = id.replace('services:', '');
+        el = document.querySelector(`input[name="Services Requested"][value="${val}"]`);
+        el = el ? el.closest('label') || el.parentElement : null;
+      } else if (Object.keys({ 'service-location': 1, 'insurance-type': 1, 'medicaid': 1, 'other-insurance': 1, 'has-email': 1, 'can-print': 1, 'sees-therapist': 1 }).includes(id)) {
+        // For radio buttons, flash the checked radio's parent
+        const radioNames = { 'service-location': 'Service Location', 'insurance-type': 'Insurance Type', 'medicaid': 'Medicaid', 'other-insurance': 'Other Insurance', 'has-email': 'Has Email', 'can-print': 'Can Print Paperwork', 'sees-therapist': 'Currently Sees Therapist' };
+        const checked = document.querySelector(`input[name="${radioNames[id]}"]:checked`);
+        el = checked ? checked.closest('label') || checked.parentElement : null;
+      } else {
+        el = document.getElementById(id);
+      }
+      if (el) {
+        el.classList.add('sos-field-filled');
+        setTimeout(() => el.classList.remove('sos-field-filled'), 2000);
+      }
+    });
+  }
+
   // ─── Open / Close panel ───────────────────────────────────────────────────────
   function openPanel() {
     isOpen = true;
@@ -206,6 +309,11 @@
 
       const reply = data.reply || 'Sorry, I could not generate a response. Please call us at 308-856-9949.';
       appendBubble('assistant', reply);
+
+      // Populate form fields if the API returned any
+      if (data.fields) fillFields(data.fields);
+
+      // Store only the text reply in history (not the JSON fields)
       conversationHistory.push({ role: 'assistant', content: reply });
       if (conversationHistory.length > MAX_HISTORY) {
         conversationHistory = conversationHistory.slice(-MAX_HISTORY);
