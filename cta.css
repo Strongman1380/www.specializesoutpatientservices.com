@@ -48,6 +48,18 @@
     flex-wrap: wrap;
 }
 
+.cta-hero-buttons .btn-primary {
+    background: #fff !important;
+    color: #8B1A1A !important;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25);
+}
+
+.cta-hero-buttons .btn-primary:hover {
+    background: #E5C4A8 !important;
+    color: #6B0F0F !important;
+    box-shadow: 0 6px 25px rgba(0, 0, 0, 0.3);
+}
+
 /* ── What Is CTA ──────────────────────────────────────────── */
 .cta-what {
     padding: 90px 0;
@@ -595,14 +607,16 @@
 }
 
 .cta-promo-actions .btn-secondary {
-    border-color: rgba(255, 255, 255, 0.5);
-    color: #fff;
+    background: transparent !important;
+    border: 2px solid rgba(255, 255, 255, 0.6) !important;
+    color: #fff !important;
     white-space: nowrap;
 }
 
 .cta-promo-actions .btn-secondary:hover {
-    border-color: #fff;
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.15) !important;
+    border-color: #fff !important;
+    color: #fff !important;
 }
 
 @media (max-width: 768px) {
