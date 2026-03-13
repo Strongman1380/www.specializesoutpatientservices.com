@@ -223,11 +223,11 @@ button {
 .btn-secondary {
     background: var(--white);
     color: var(--primary);
-    border: 2px solid var(--white);
+    border: 2px solid var(--primary);
 }
 
 .btn-secondary:hover {
-    background: transparent;
+    background: var(--primary);
     color: var(--white);
 }
 

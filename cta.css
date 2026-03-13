@@ -607,16 +607,16 @@
 }
 
 .cta-promo-actions .btn-secondary {
-    background: transparent !important;
-    border: 2px solid rgba(255, 255, 255, 0.6) !important;
-    color: #fff !important;
+    background: #fff !important;
+    border: 2px solid #fff !important;
+    color: #8B1A1A !important;
     white-space: nowrap;
 }
 
 .cta-promo-actions .btn-secondary:hover {
-    background: rgba(255, 255, 255, 0.15) !important;
-    border-color: #fff !important;
-    color: #fff !important;
+    background: #F0E4E0 !important;
+    border-color: #F0E4E0 !important;
+    color: #6B0F0F !important;
 }
 
 @media (max-width: 768px) {
